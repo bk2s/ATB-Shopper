@@ -18,23 +18,7 @@ class TodoListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
-        print(dataFilePath!)
-        
-        var newItem = Item()
-        newItem.title = "Молоко"
-        itemArray.append(newItem)
-        
-        var newItem2 = Item()
-        newItem2.title = "Сыр"
-        newItem2.done = true
-        itemArray.append(newItem2)
-        
-        var newItem3 = Item()
-        newItem3.title = "Яйца"
-        itemArray.append(newItem3)
-        
         
         loadItems()
 
@@ -141,6 +125,7 @@ extension TodoListViewController {
         if editingStyle == .delete {
             self.itemArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            saveItems()
         }
     }
     

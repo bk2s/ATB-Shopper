@@ -10,23 +10,34 @@ import UIKit
 
 class TodoListViewController: UITableViewController {
 
-    var itemArray = [
-        "Гречка",
-        "Мука",
-        "Кофе",
-        "Яйца",
-        "Молоко"
-    ]
+    var itemArray = [Item]()
     
-    let defaults = UserDefaults.standard
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    
+    //let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Загружаем в itemArray то, что хранится в памяти приложения.
-        if let items = (defaults.array(forKey: "TodoListArray") as? [String]) {
-            itemArray = items
-        }
+
+        print(dataFilePath!)
+        
+        var newItem = Item()
+        newItem.title = "Молоко"
+        itemArray.append(newItem)
+        
+        var newItem2 = Item()
+        newItem2.title = "Сыр"
+        newItem2.done = true
+        itemArray.append(newItem2)
+        
+        var newItem3 = Item()
+        newItem3.title = "Яйца"
+        itemArray.append(newItem3)
+        
+        
+        loadItems()
+
         
         // Do any additional setup after loading the view.
     }
@@ -44,12 +55,12 @@ class TodoListViewController: UITableViewController {
         // Создаём кнопку добавить, которая присвоит значение текстового поля - переменной textField
         let action = UIAlertAction(title: "Добавить", style: .default) { (action) in
           
-                self.itemArray.append(textField.text!) 
+            var newItem = Item()
+            newItem.title = textField.text!
+
+            self.itemArray.append(newItem)
             
-            // Сохраняем значения в userDefaults, чтобы массив не сбрасывался после перезагрузки
-            self.defaults.setValue(self.itemArray, forKey: "TodoListArray")
-            
-            self.tableView.reloadData()
+            self.saveItems()
         }
         
         
@@ -79,7 +90,16 @@ extension TodoListViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = itemArray[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
-        cell.textLabel?.text = message
+        cell.textLabel?.text = message.title
+        
+        cell.accessoryType = message.done ? .checkmark : .none
+        
+//        if message.done == true {
+//            cell.accessoryType = .checkmark
+//        } else {
+//            cell.accessoryType = .none
+//        }
+    
         return cell
     }
     
@@ -96,11 +116,15 @@ extension TodoListViewController {
         
         
         
-        if tableView.cellForRow(at: indexPath)?.accessoryType == .checkmark {
-            tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        } else {
+        if itemArray[indexPath.row].done == false {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
+        } else {
+            tableView.cellForRow(at: indexPath)?.accessoryType = .none
         }
+        itemArray[indexPath.row].done.toggle()
+        
+        saveItems()
+ 
         
         // Анимашка исчезающего выделения
         tableView.deselectRow(at: indexPath, animated: true)
@@ -119,5 +143,37 @@ extension TodoListViewController {
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
     }
+    
+    
+    // Сохраняем данные через NSCoder
+    func saveItems() {
+        let encoder = PropertyListEncoder()
+        
+        do {
+            let data = try encoder.encode(itemArray)
+            try data.write(to: dataFilePath!)
+        } catch {
+            print(error)
+        }
+        
+        tableView.reloadData()
+    }
+    
+    
+    // Загружаем данные через NSCoder
+    func loadItems() {
+       if let data = try? Data(contentsOf: dataFilePath!) {
+            let decoder = PropertyListDecoder()
+            do {
+            itemArray = try decoder.decode([Item].self, from: data)
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    
+    
 }
+
 

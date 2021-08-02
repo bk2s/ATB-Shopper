@@ -7,21 +7,29 @@
 //
 
 import UIKit
+import CoreData
 
 class TodoListViewController: UITableViewController {
 
     var itemArray = [Item]()
     
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist")
+    // Подключаемся к AppDelegate
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
+    
+   
     
     //let defaults = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
-        loadItems()
 
+        loadItems()
+//
+//        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        print(dataFilePath)
         
         // Do any additional setup after loading the view.
     }
@@ -39,8 +47,12 @@ class TodoListViewController: UITableViewController {
         // Создаём кнопку добавить, которая присвоит значение текстового поля - переменной textField
         let action = UIAlertAction(title: "Добавить", style: .default) { (action) in
           
-            var newItem = Item()
+    
+            
+            let newItem = Item(context: self.context)
             newItem.title = textField.text!
+            newItem.done = false
+            
 
             self.itemArray.append(newItem)
             
@@ -99,7 +111,6 @@ extension TodoListViewController {
         print(itemArray[indexPath.row])
         
         
-        
         if itemArray[indexPath.row].done == false {
             tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         } else {
@@ -123,37 +134,39 @@ extension TodoListViewController {
     // Удаление ячейки
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
+            
+            // Сначала удаляем из базы данных
+            context.delete(itemArray[indexPath.row])
+            // А потом уже с экрана. Иначе будет бедулька.
             self.itemArray.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
             saveItems()
+            tableView.reloadData()
+
         }
     }
     
     
-    // Сохраняем данные через NSCoder
+    // Сохраняем данные через CoreData
     func saveItems() {
-        let encoder = PropertyListEncoder()
         
         do {
-            let data = try encoder.encode(itemArray)
-            try data.write(to: dataFilePath!)
+           try context.save()
+            
         } catch {
             print(error)
         }
         
-        tableView.reloadData()
     }
     
     
-    // Загружаем данные через NSCoder
+    // Загружаем данные через CoreData
     func loadItems() {
-       if let data = try? Data(contentsOf: dataFilePath!) {
-            let decoder = PropertyListDecoder()
-            do {
-            itemArray = try decoder.decode([Item].self, from: data)
-            } catch {
-                print(error)
-            }
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        do {
+            itemArray = try context.fetch(request)
+        } catch {
+            print(error)
         }
     }
     

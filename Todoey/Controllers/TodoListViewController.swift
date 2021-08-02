@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TodoListViewController: UITableViewController {
+class TodoListViewController: UITableViewController{
 
     var itemArray = [Item]()
     
@@ -26,6 +26,7 @@ class TodoListViewController: UITableViewController {
         super.viewDidLoad()
         
 
+
         loadItems()
 //
 //        let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -34,6 +35,8 @@ class TodoListViewController: UITableViewController {
         // Do any additional setup after loading the view.
     }
 
+    
+    //MARK: Plus button
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
@@ -57,6 +60,7 @@ class TodoListViewController: UITableViewController {
             self.itemArray.append(newItem)
             
             self.saveItems()
+            self.tableView.reloadData()
         }
         
         
@@ -76,6 +80,9 @@ class TodoListViewController: UITableViewController {
     
     
 }
+
+
+//MARK: TableView
 
 extension TodoListViewController {
     
@@ -104,7 +111,7 @@ extension TodoListViewController {
     
 
     
-    
+    //MARK: Check item
     
     // Отмечаем элемент, который выбрал пользователь.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -125,6 +132,8 @@ extension TodoListViewController {
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
+    
+    //MARK: Delete item
     
     // Подпись к кнопке удалить
     override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
@@ -147,6 +156,9 @@ extension TodoListViewController {
     }
     
     
+    //MARK: Save and load CoreData
+    
+    
     // Сохраняем данные через CoreData
     func saveItems() {
         
@@ -161,8 +173,8 @@ extension TodoListViewController {
     
     
     // Загружаем данные через CoreData
-    func loadItems() {
-        let request : NSFetchRequest<Item> = Item.fetchRequest()
+    // В функции можно указать значение по умолчанию.
+    func loadItems(request: NSFetchRequest<Item> = Item.fetchRequest()) {
         do {
             itemArray = try context.fetch(request)
         } catch {
@@ -170,8 +182,44 @@ extension TodoListViewController {
         }
     }
     
+ 
+    
     
     
 }
 
+//MARK: Search bar
+extension TodoListViewController: UISearchBarDelegate {
 
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+       
+        let request : NSFetchRequest<Item> = Item.fetchRequest()
+        
+        // Форма записи такая. В поле title ищем то, что содержится в searchBar. [cd] - не чувмствительный к регистру.
+        request.predicate = NSPredicate(format: "title CONTAINS[cd] %@", searchBar.text!)
+        
+        // Сортировка по алфавиту всех строк title
+        request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        
+        loadItems(request: request)
+        
+        tableView.reloadData()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text == ""{
+            loadItems()
+            tableView.reloadData()
+            
+            // Запускаем команду в основном потоке.
+            DispatchQueue.main.async {
+                // Убирает клавиатуру убирая поиск с первого места. Как бы свергая его власть))
+                searchBar.resignFirstResponder()
+
+            }
+        }
+    }
+
+}

@@ -8,7 +8,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--🛒 ATB Shopping-->
+        <!--Todo List View Controller-->
         <scene sceneID="JER-hs-Dxx">
             <objects>
                 <tableViewController id="KLU-Go-mLG" customClass="TodoListViewController" customModule="ATB_Shopper" customModuleProvider="target" sceneMemberID="viewController">
@@ -16,6 +16,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="tintColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="separatorColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="sectionIndexTrackingBackgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" id="muv-Yi-c3a">
                             <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -39,7 +43,8 @@
                             <outlet property="delegate" destination="KLU-Go-mLG" id="HUC-UN-AB9"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="🛒 ATB Shopping" id="PXq-gR-uQH">
+                    <navigationItem key="navigationItem" id="PXq-gR-uQH">
+                        <barButtonItem key="backBarButtonItem" title="Назад" id="CHZ-qa-sdG"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="HAa-1j-gy2">
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
@@ -67,12 +72,51 @@
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="KLU-Go-mLG" kind="relationship" relationship="rootViewController" id="55K-o8-KMs"/>
+                        <segue destination="bP1-bo-XLm" kind="relationship" relationship="rootViewController" id="PMk-fr-0fQ"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LMZ-VA-yY4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-477" y="139"/>
+        </scene>
+        <!--🛒 ATB Shopping-->
+        <scene sceneID="pqF-vl-jyX">
+            <objects>
+                <tableViewController id="bP1-bo-XLm" customClass="CategoryViewController" customModule="ATB_Shopper" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="AmA-5O-X2R">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CategoryCell" id="9g2-fS-2ZM">
+                                <rect key="frame" x="0.0" y="24.5" width="414" height="43.5"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="9g2-fS-2ZM" id="Wsf-ti-rS8">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="bP1-bo-XLm" id="XOn-tf-ST0"/>
+                            <outlet property="delegate" destination="bP1-bo-XLm" id="luo-wB-WaK"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="🛒 ATB Shopping" id="6I8-SC-88x">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="0uJ-HX-iOf">
+                            <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="buttonPressed:" destination="bP1-bo-XLm" id="dmC-Hs-CJa"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="KLU-Go-mLG" kind="show" identifier="goToItems" id="J3U-Qz-iBs"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="O5m-an-MkA" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="372" y="139"/>
         </scene>
     </scenes>
     <resources>

@@ -7,18 +7,14 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryViewController: UITableViewController {
 
+     
+    let realm = try! Realm()
     
-    var сategories = [Category]()
-    
-    // Подключаемся к AppDelegate
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    
-    
-    
+    var categories: Results<Category>?
     
     
     override func viewDidLoad() {
@@ -43,14 +39,13 @@ class CategoryViewController: UITableViewController {
           
     
             
-            let newItem = Category(context: self.context)
+            let newItem = Category()
             newItem.name = textField.text!
             
             
 
-            self.сategories.append(newItem)
             
-            self.saveItems()
+            self.saveItems(category: newItem)
             self.tableView.reloadData()
         }
         
@@ -76,13 +71,18 @@ class CategoryViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return сategories.count
+        return categories?.count ?? 1
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let message = сategories[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "CategoryCell", for: indexPath)
-        cell.textLabel?.text = message.name
+
+        if let message = categories?[indexPath.row] {
+            cell.textLabel?.text = message.name
+        } else {
+            cell.textLabel?.text = "Пусто"
+        }
+
     
         return cell
     }
@@ -97,7 +97,7 @@ class CategoryViewController: UITableViewController {
         let destinationVC = segue.destination as! TodoListViewController
         
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = сategories[indexPath.row]
+            destinationVC.selectedCategory = categories?[indexPath.row]
         }
     }
     
@@ -107,10 +107,12 @@ class CategoryViewController: UITableViewController {
     
     
     // Сохраняем данные через CoreData
-    func saveItems() {
+    func saveItems(category: Category) {
         
         do {
-           try context.save()
+            try realm.write {
+                realm.add(category)
+            }
             
         } catch {
             print(error)
@@ -121,12 +123,11 @@ class CategoryViewController: UITableViewController {
     
     // Загружаем данные через CoreData
     // В функции можно указать значение по умолчанию.
-    func loadItems(request: NSFetchRequest<Category> = Category.fetchRequest()) {
-        do {
-            сategories = try context.fetch(request)
-        } catch {
-            print(error)
-        }
+    func loadItems() {
+        
+        categories = realm.objects(Category.self)
+        
+        
     }
     
   

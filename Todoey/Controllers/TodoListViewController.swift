@@ -8,22 +8,39 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class TodoListViewController: UITableViewController{
- 
+class TodoListViewController: SwipeTableViewController {
+    
     let realm = try! Realm()
     var todoItems: Results<Item>?
-
+    var color = ""
+    var alpha = 1.0
+    
     var selectedCategory : Category? {
         didSet {
             loadItems()
         }
     }
     
-
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        searchBar.barTintColor = UIColor(hexString: color)
+        searchBar.searchTextField.textColor = .white
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = UIColor(hexString: color)?.cgColor
+        
+        
+        title = selectedCategory?.name
+        navigationController?.navigationBar.barTintColor = UIColor(hexString: color)?.darken(byPercentage: 0.6)
+        tableView.rowHeight = 70
+        tableView.backgroundColor = UIColor(hexString: color)?.darken(byPercentage: 0.9)
+        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.backgroundColor = UIColor(hexString: color)?.darken(byPercentage: 0.6)
         
     }
     
@@ -34,7 +51,7 @@ class TodoListViewController: UITableViewController{
     
     
     
-
+    
     
     //MARK: Plus button
     
@@ -49,22 +66,22 @@ class TodoListViewController: UITableViewController{
         
         // Создаём кнопку добавить, которая присвоит значение текстового поля - переменной textField
         let action = UIAlertAction(title: "Добавить", style: .default) { (action) in
-          
-    
+            
+            
             if let currentCategory = self.selectedCategory {
                 do {
                     try self.realm.write {
-                    let newItem = Item()
-                    newItem.title = textField.text!
+                        let newItem = Item()
+                        newItem.title = textField.text!
                         newItem.date = Date()
-                    currentCategory.items.append(newItem)
-                }
+                        currentCategory.items.append(newItem)
+                    }
                 } catch {
                     print(error)
                 }
-               
-                 }
-
+                
+            }
+            self.alpha = 1.0
             self.tableView.reloadData()
         }
         
@@ -79,12 +96,18 @@ class TodoListViewController: UITableViewController{
         alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
-}
-
-
-//MARK: TableView
-
-extension TodoListViewController {
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //MARK: TableView
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         todoItems?.count ?? 1
@@ -92,20 +115,28 @@ extension TodoListViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let message = todoItems?[indexPath.row]
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ToDoItemCell", for: indexPath)
+        
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        let bgcolor = UIColor(hexString: color)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count))
         cell.textLabel?.text = message?.title
+        cell.backgroundColor = bgcolor
+        cell.textLabel?.textColor = UIColor(contrastingBlackOrWhiteColorOn:(UIColor(hexString: color)?.darken(byPercentage: 0.5)!)!, isFlat:true)
+        
         
         
         
         cell.accessoryType = message?.done ?? true ? .checkmark : .none
-    
+        
         return cell
     }
     
-    
-    
-    
 
+    
+    
+    
+    
+    
+    
     
     //MARK: Check item
     
@@ -121,13 +152,13 @@ extension TodoListViewController {
         
         
         if let item = todoItems?[indexPath.row] {
-        do {
-        try self.realm.write {
-            item.done.toggle()
-        }
-        }catch {
-            print(error)
-        }
+            do {
+                try self.realm.write {
+                    item.done.toggle()
+                }
+            }catch {
+                print(error)
+            }
         }
         
         // Анимашка исчезающего выделения
@@ -137,50 +168,35 @@ extension TodoListViewController {
     
     
     
-    
-    
-    
-    //MARK: Delete item
-    
-    // Подпись к кнопке удалить
-    override func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-        return "Удалить"
-    }
-    
-    // Удаление ячейки
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            
-            if let item = todoItems?[indexPath.row] {
-            do {
-            try self.realm.write {
-                realm.delete(item)
-            }
-            }catch {
-                print(error)
-            }
-                
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-
-            tableView.reloadData()
-            }
-            
-        }
-    }
-    
-    
-    
-    
-    
     //MARK: load Realm
     
     // Загружаем данные через Realm
     // В функции можно указать значение по умолчанию.
-   func loadItems() {
-    todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
-
-   }
+    func loadItems() {
+        todoItems = selectedCategory?.items.sorted(byKeyPath: "title", ascending: true)
+        
+    }
+    
+    
+    override func updateModel(at indexPath: IndexPath) {
+        
+        if let item = todoItems?[indexPath.row] {
+            do {
+                try self.realm.write {
+                    realm.delete(item)
+                }
+            }catch {
+                print(error)
+            }
+        }
+    }
+    
+    
 }
+
+
+
+
 
 
 
@@ -191,23 +207,30 @@ extension TodoListViewController: UISearchBarDelegate {
     
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+
         todoItems = todoItems?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "date", ascending: true)
+        
         tableView.reloadData()
     }
     
     
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+
         if searchBar.text == ""{
+
             loadItems()
             tableView.reloadData()
             
             // Запускаем команду в основном потоке.
             DispatchQueue.main.async {
-            // Убирает клавиатуру убирая поиск с первого места. Как бы свергая его власть))
+                // Убирает клавиатуру убирая поиск с первого места. Как бы свергая его власть))
                 searchBar.resignFirstResponder()
             }
         }
     }
+    
+
+    
     
 }

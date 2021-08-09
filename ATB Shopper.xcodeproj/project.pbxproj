@@ -11,6 +11,9 @@
 		02462D5226BACBAD009244A3 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 02462D5126BACBAD009244A3 /* RealmSwift */; };
 		02462D5626BAEB12009244A3 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02462D5526BAEB12009244A3 /* Item.swift */; };
 		02462D5826BAEB1D009244A3 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02462D5726BAEB1D009244A3 /* Category.swift */; };
+		02462D5B26BD78CC009244A3 /* SwipeCellKit in Frameworks */ = {isa = PBXBuildFile; productRef = 02462D5A26BD78CC009244A3 /* SwipeCellKit */; };
+		02C5F87E26BE836D0086F332 /* SwipeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02C5F87D26BE836D0086F332 /* SwipeTableViewController.swift */; };
+		403D33FCC615015F1BC4946B /* Pods_ATB_Shopper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F909DE52A54323A50A84742 /* Pods_ATB_Shopper.framework */; };
 		EB2BE4FA239524DB00FB933B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2BE4F9239524DB00FB933B /* AppDelegate.swift */; };
 		EB2BE4FE239524DB00FB933B /* TodoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2BE4FD239524DB00FB933B /* TodoListViewController.swift */; };
 		EB2BE501239524DB00FB933B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EB2BE4FF239524DB00FB933B /* Main.storyboard */; };
@@ -22,6 +25,10 @@
 		02462D2526B86691009244A3 /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		02462D5526BAEB12009244A3 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		02462D5726BAEB1D009244A3 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		02C5F87D26BE836D0086F332 /* SwipeTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeTableViewController.swift; sourceTree = "<group>"; };
+		17D40213E533CBA10179F6BB /* Pods-ATB Shopper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATB Shopper.debug.xcconfig"; path = "Target Support Files/Pods-ATB Shopper/Pods-ATB Shopper.debug.xcconfig"; sourceTree = "<group>"; };
+		94BFC3D900FAA454200C17A3 /* Pods-ATB Shopper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ATB Shopper.release.xcconfig"; path = "Target Support Files/Pods-ATB Shopper/Pods-ATB Shopper.release.xcconfig"; sourceTree = "<group>"; };
+		9F909DE52A54323A50A84742 /* Pods_ATB_Shopper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ATB_Shopper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB2BE4F6239524DB00FB933B /* ATB Shopper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ATB Shopper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB2BE4F9239524DB00FB933B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB2BE4FD239524DB00FB933B /* TodoListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoListViewController.swift; sourceTree = "<group>"; };
@@ -36,7 +43,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02462D5B26BD78CC009244A3 /* SwipeCellKit in Frameworks */,
 				02462D5226BACBAD009244A3 /* RealmSwift in Frameworks */,
+				403D33FCC615015F1BC4946B /* Pods_ATB_Shopper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +64,7 @@
 		02462CDB26B65F05009244A3 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				02C5F87D26BE836D0086F332 /* SwipeTableViewController.swift */,
 				02462D2526B86691009244A3 /* CategoryViewController.swift */,
 				EB2BE4FD239524DB00FB933B /* TodoListViewController.swift */,
 			);
@@ -69,12 +79,32 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		5FAA2F9FE55B2EC52647F264 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9F909DE52A54323A50A84742 /* Pods_ATB_Shopper.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9A35C4EF656CB70CBA771689 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				17D40213E533CBA10179F6BB /* Pods-ATB Shopper.debug.xcconfig */,
+				94BFC3D900FAA454200C17A3 /* Pods-ATB Shopper.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		EB2BE4ED239524DB00FB933B = {
 			isa = PBXGroup;
 			children = (
 				02462CDA26B65E97009244A3 /* Data Model */,
 				EB2BE4F8239524DB00FB933B /* Todoey */,
 				EB2BE4F7239524DB00FB933B /* Products */,
+				9A35C4EF656CB70CBA771689 /* Pods */,
+				5FAA2F9FE55B2EC52647F264 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,9 +136,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EB2BE50A239524DC00FB933B /* Build configuration list for PBXNativeTarget "ATB Shopper" */;
 			buildPhases = (
+				2A5C7D08ADCA6A207D32C530 /* [CP] Check Pods Manifest.lock */,
 				EB2BE4F2239524DB00FB933B /* Sources */,
 				EB2BE4F3239524DB00FB933B /* Frameworks */,
 				EB2BE4F4239524DB00FB933B /* Resources */,
+				F138F4B936472BEA8969F5B4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -117,6 +149,7 @@
 			name = "ATB Shopper";
 			packageProductDependencies = (
 				02462D5126BACBAD009244A3 /* RealmSwift */,
+				02462D5A26BD78CC009244A3 /* SwipeCellKit */,
 			);
 			productName = Todoey;
 			productReference = EB2BE4F6239524DB00FB933B /* ATB Shopper.app */;
@@ -147,7 +180,8 @@
 			);
 			mainGroup = EB2BE4ED239524DB00FB933B;
 			packageReferences = (
-				02462D5026BACBAC009244A3 /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+				02462D5026BACBAC009244A3 /* XCRemoteSwiftPackageReference "realm-cocoa.git" */,
+				02462D5926BD78CC009244A3 /* XCRemoteSwiftPackageReference "SwipeCellKit" */,
 			);
 			productRefGroup = EB2BE4F7239524DB00FB933B /* Products */;
 			projectDirPath = "";
@@ -171,6 +205,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		2A5C7D08ADCA6A207D32C530 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ATB Shopper-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F138F4B936472BEA8969F5B4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ATB Shopper/Pods-ATB Shopper-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ATB Shopper/Pods-ATB Shopper-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ATB Shopper/Pods-ATB Shopper-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EB2BE4F2239524DB00FB933B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -180,6 +256,7 @@
 				02462D2626B86691009244A3 /* CategoryViewController.swift in Sources */,
 				EB2BE4FE239524DB00FB933B /* TodoListViewController.swift in Sources */,
 				EB2BE4FA239524DB00FB933B /* AppDelegate.swift in Sources */,
+				02C5F87E26BE836D0086F332 /* SwipeTableViewController.swift in Sources */,
 				02462D5826BAEB1D009244A3 /* Category.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -324,6 +401,7 @@
 		};
 		EB2BE50B239524DC00FB933B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 17D40213E533CBA10179F6BB /* Pods-ATB Shopper.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -343,6 +421,7 @@
 		};
 		EB2BE50C239524DC00FB933B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 94BFC3D900FAA454200C17A3 /* Pods-ATB Shopper.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -384,7 +463,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		02462D5026BACBAC009244A3 /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+		02462D5026BACBAC009244A3 /* XCRemoteSwiftPackageReference "realm-cocoa.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-cocoa.git";
 			requirement = {
@@ -392,13 +471,26 @@
 				minimumVersion = 10.12.0;
 			};
 		};
+		02462D5926BD78CC009244A3 /* XCRemoteSwiftPackageReference "SwipeCellKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwipeCellKit/SwipeCellKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		02462D5126BACBAD009244A3 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 02462D5026BACBAC009244A3 /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			package = 02462D5026BACBAC009244A3 /* XCRemoteSwiftPackageReference "realm-cocoa.git" */;
 			productName = RealmSwift;
+		};
+		02462D5A26BD78CC009244A3 /* SwipeCellKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 02462D5926BD78CC009244A3 /* XCRemoteSwiftPackageReference "SwipeCellKit" */;
+			productName = SwipeCellKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

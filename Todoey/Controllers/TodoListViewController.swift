@@ -15,7 +15,6 @@ class TodoListViewController: SwipeTableViewController {
     let realm = try! Realm()
     var todoItems: Results<Item>?
     var color = ""
-    var alpha = 1.0
     
     var selectedCategory : Category? {
         didSet {
@@ -27,6 +26,14 @@ class TodoListViewController: SwipeTableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
+        
+    }
+    
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
         
         searchBar.barTintColor = UIColor(hexString: color)
         searchBar.searchTextField.textColor = .white
@@ -40,16 +47,15 @@ class TodoListViewController: SwipeTableViewController {
         tableView.backgroundColor = UIColor(hexString: color)?.darken(byPercentage: 0.9)
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.backgroundColor = UIColor(hexString: color)?.darken(byPercentage: 0.6)
-        
+        navigationController?.navigationBar.backgroundColor = UIColor(hexString: color)//?.darken(byPercentage: 0.6)
     }
     
     
     
-    
-    
-    
-    
+    @IBAction func backToMenu(_ sender: Any) {
+        
+        _ = self.navigationController?.popToRootViewController(animated: true)
+    }
     
     
     
@@ -60,7 +66,7 @@ class TodoListViewController: SwipeTableViewController {
         // Переменная с текстом, который мы добавим в список.
         var textField = UITextField()
         // Создаём всплывашку
-        let alert = UIAlertController(title: "Добавить товар", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Добавить задачу", message: "", preferredStyle: .alert)
         
         
         
@@ -81,7 +87,6 @@ class TodoListViewController: SwipeTableViewController {
                 }
                 
             }
-            self.alpha = 1.0
             self.tableView.reloadData()
         }
         
@@ -89,6 +94,8 @@ class TodoListViewController: SwipeTableViewController {
         // Создаём текстовое поле для ввода товара
         alert.addTextField { alertTextField in
             alertTextField.placeholder = ""
+            alertTextField.autocorrectionType = .yes
+            alertTextField.autocapitalizationType = .sentences
             textField = alertTextField
         }
         

@@ -24,8 +24,13 @@ class CategoryViewController: SwipeTableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        loadItems()
         
+   
+        overrideUserInterfaceStyle = .dark
+            
+        
+        
+        loadItems()
         // Указываем высоту ячейки, чтобы поместилась иконка delete
         tableView.rowHeight = 70
         
@@ -37,6 +42,9 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
+        tableView.reloadData()
+        
         tableView.backgroundColor = .black
         navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
         navigationController?.navigationBar.tintColor = .black
@@ -47,42 +55,46 @@ class CategoryViewController: SwipeTableViewController {
     @IBAction func buttonPressed(_ sender: UIBarButtonItem) {
         
         
-        // Переменная с текстом, который мы добавим в список.
-        var textField = UITextField()
-        // Создаём всплывашку
-        let alert = UIAlertController(title: "Добавить категорию", message: "", preferredStyle: .alert)
-        
-        
-        
-        // Создаём кнопку добавить, которая присвоит значение текстового поля - переменной textField
-        let action = UIAlertAction(title: "Добавить", style: .default) { (action) in
-            
-            
-            
-            let newItem = Category()
-            newItem.name = textField.text!
-            newItem.color = UIColor.randomFlat().hexValue()
-            
-            
-            
-            self.saveItems(category: newItem)
-            self.tableView.reloadData()
-        }
-        
-        
-        // Создаём текстовое поле для ввода товара
-        alert.addTextField { alertTextField in
-            alertTextField.placeholder = ""
-            textField = alertTextField
-        }
-        
-        // Запускаем
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
-        
-        
-        
     }
+ //   @IBAction func buttonPressed(_ sender: UIBarButtonItem) {
+        
+//        
+//        // Переменная с текстом, который мы добавим в список.
+//        var textField = UITextField()
+//        // Создаём всплывашку
+//        let alert = UIAlertController(title: "Добавить категорию", message: "", preferredStyle: .alert)
+//        
+//        
+//        
+//        // Создаём кнопку добавить, которая присвоит значение текстового поля - переменной textField
+//        let action = UIAlertAction(title: "Добавить", style: .default) { (action) in
+//            
+//            
+//            
+//            let newItem = Category()
+//            newItem.name = textField.text!
+//            newItem.color = UIColor.randomFlat().hexValue()
+//            
+//            
+//            
+//            self.saveItems(category: newItem)
+//            self.tableView.reloadData()
+//        }
+//        
+//        
+//        // Создаём текстовое поле для ввода товара
+//        alert.addTextField { alertTextField in
+//            alertTextField.placeholder = ""
+//            textField = alertTextField
+//        }
+//        
+//        // Запускаем
+//        alert.addAction(action)
+//        present(alert, animated: true, completion: nil)
+//        
+//        
+        
+ //   }
     
     
     
@@ -130,9 +142,10 @@ class CategoryViewController: SwipeTableViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationVC = segue.destination as! TodoListViewController
-        
+       
+
         if let indexPath = tableView.indexPathForSelectedRow {
+            let destinationVC = segue.destination as! TodoListViewController
             destinationVC.selectedCategory = categories?[indexPath.row]
             destinationVC.color = (categories?[indexPath.row].color)!
         }

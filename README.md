@@ -1,9 +1,23 @@
 
 # Todo Bee do
 
-A brief description of what this project does and who it's for
+Absolutelly uniqly Todo list! Look so fresh and hot! Or not.. 
 
 
 ![Logo](http://stepanok.com/github/todo.png)
 
     
+
+## Frameworks
+
+🟢 ChameleonFramework 
+
+🟢 KDCircularProgress
+
+🟢 GradientView
+
+🟢 Realm
+
+🟢 SwipeCellKit
+
+  
